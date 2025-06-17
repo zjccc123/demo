@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>炫酷卡片展示</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        .card {
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .card:hover {
+            transform: rotateY(180deg) scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.7);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 15px rgba(255,255,255,0.7); }
+            50% { text-shadow: 0 0 25px rgba(255,255,255,0.9); }
+            100% { text-shadow: 0 0 15px rgba(255,255,255,0.7); }
+        }
+        p {
+            text-align: center;
+            line-height: 1.8;
+            font-size: 1.1em;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        .card:hover p {
+            transform: scale(1.05);
+        }
+        .highlight {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="content">
+        <div class="card">
+            <div class="card-front">
+                <h1>欢迎探索</h1>
+                <p>悬停查看<span class="highlight">神奇效果</span>！</p>
+            </div>
+            <div class="card-back">
+                <h1>炫酷特效</h1>
+                <p>这是一个充满<span class="highlight">科技感</span>的3D卡片<br>背景粒子会随鼠标移动<br>点击还能产生互动效果！</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: ['#4ecdc4', '#ff6b6b', '#ffffff'] },
+                shape: { 
+                    type: ['circle', 'triangle'],
+                    stroke: { width: 0, color: '#000000' },
+                    polygon: { nb_sides: 5 }
+                },
+                opacity: {
+                    value: 0.6,
+                    random: true,
+                    anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+                },
+                size: {
+                    value: 4,
+                    random: true,
+                    anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#ffffff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 4,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: { enable: true, rotateX: 600, rotateY: 1200 }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { 
+                        enable: true, 
+                        mode: 'repulse',
+                        parallax: { enable: true, force: 60, smooth: 10 }
+                    },
+                    onclick: { 
+                        enable: true, 
+                        mode: 'push',
+                        particles_nb: 4
+                    },
+                    resize: true
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>

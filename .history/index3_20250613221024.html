@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cube Demo</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a1a;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .scene {
+            width: 200px;
+            height: 200px;
+            perspective: 600px;
+            margin: 100px;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateZ(-100px);
+            animation: rotate 20s infinite linear;
+        }
+
+        @keyframes rotate {
+            from { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg); }
+            to { transform: translateZ(-100px) rotateX(360deg) rotateY(360deg); }
+        }
+
+        .cube__face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 2px solid white;
+            line-height: 200px;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .cube__face--front  { transform: rotateY(0deg) translateZ(100px); }
+        .cube__face--right  { transform: rotateY(90deg) translateZ(100px); }
+        .cube__face--back   { transform: rotateY(180deg) translateZ(100px); }
+        .cube__face--left   { transform: rotateY(-90deg) translateZ(100px); }
+        .cube__face--top    { transform: rotateX(90deg) translateZ(100px); }
+        .cube__face--bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        .cursor {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease;
+        }
+
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: transform 0.6s ease;
+        }
+
+        .title {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2em;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="title">3D Cube with Mouse Effects</div>
+    <div class="scene">
+        <div class="cube">
+            <div class="cube__face cube__face--front">Front</div>
+            <div class="cube__face cube__face--back">Back</div>
+            <div class="cube__face cube__face--right">Right</div>
+            <div class="cube__face cube__face--left">Left</div>
+            <div class="cube__face cube__face--top">Top</div>
+            <div class="cube__face cube__face--bottom">Bottom</div>
+        </div>
+    </div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            follower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform += ' scale(0.8)';
+            follower.style.transform += ' scale(0.8)';
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = cursor.style.transform.replace(' scale(0.8)', '');
+            follower.style.transform = follower.style.transform.replace(' scale(0.8)', '');
+        });
+    </script>
+</body>
+</html>
